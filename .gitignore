@@ -1,0 +1,17 @@
+
+
+# Dependency directories
+node_modules/
+
+# prettierrc
+.prettierrc
+
+# vscode
+.vscode/*
+
+# Mac OS
+.DS_Store
+
+# compiled code 
+dist/
+
