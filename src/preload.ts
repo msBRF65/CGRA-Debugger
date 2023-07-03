@@ -1,7 +1,8 @@
 import { contextBridge, ipcRenderer } from 'electron';
 
-console.log('preloaded!');
-
-contextBridge.exposeInMainWorld('myapi', {
-    read: (path: string) => ipcRenderer.invoke('read', path),
+contextBridge.exposeInMainWorld('fs', {
+    readFile: (path: string) => ipcRenderer.invoke('readFile', path),
+});
+contextBridge.exposeInMainWorld('vcdParser', {
+    parse: (path: string) => ipcRenderer.invoke('parse', path),
 });

@@ -1,9 +1,14 @@
 import path from 'node:path';
 import { BrowserWindow, app, ipcMain } from 'electron';
 import * as fs from 'fs';
+const VCDParser = require('vcd-parser');
 
-ipcMain.handle('read', (event, path: string): string => {
-    return fs.readFileSync(path, 'utf-8');
+ipcMain.handle('readFile', (event, path: string): string => {
+    let text: string = fs.readFileSync(path, 'utf-8');
+    return text;
+});
+ipcMain.handle('parse', (event, text: string): Promise<any> => {
+    return VCDParser.parse(text);
 });
 
 app.whenReady().then(() => {

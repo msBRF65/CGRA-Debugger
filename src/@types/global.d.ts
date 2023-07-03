@@ -1,9 +1,14 @@
-export interface IMyAPI {
-    read: (path: string) => string;
+export interface IFsAPI {
+    readFile: (path: string) => string;
+}
+
+export interface IVcdParserAPI {
+    parse: (text: string) => Promise<any>;
 }
 
 declare global {
     interface Window {
-        myapi: IMyAPI;
+        fs: IFsAPI;
+        vcdParser: IVcdParserAPI;
     }
 }
