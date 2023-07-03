@@ -1,9 +1,13 @@
 class Wire {
     readonly value: number;
 
-    constructor() {
-      this.value = 0;
+    constructor(value?: number) {
+        if (value == null) {
+            this.value = 0;
+        } else {
+            this.value = value;
+        }
     }
 }
 
-export {Wire}
+export { Wire };
