@@ -6,3 +6,8 @@ contextBridge.exposeInMainWorld('fs', {
 contextBridge.exposeInMainWorld('vcdParser', {
     parse: (path: string) => ipcRenderer.invoke('parse', path),
 });
+
+contextBridge.exposeInMainWorld('electron', {
+    getWidth: () => ipcRenderer.invoke('getWidth'),
+    getHeight: () => ipcRenderer.invoke('getHeight'),
+});

@@ -1,6 +1,7 @@
 import path from 'node:path';
 import { BrowserWindow, app, ipcMain } from 'electron';
 import * as fs from 'fs';
+import { screen } from 'electron';
 const VCDParser = require('vcd-parser');
 
 ipcMain.handle('readFile', (event, path: string): string => {
@@ -9,6 +10,13 @@ ipcMain.handle('readFile', (event, path: string): string => {
 });
 ipcMain.handle('parse', (event, text: string): Promise<any> => {
     return VCDParser.parse(text);
+});
+
+ipcMain.handle('getWidth', (event): number => {
+    return screen.getPrimaryDisplay().workAreaSize.width;
+});
+ipcMain.handle('getHeight', (event): number => {
+    return screen.getPrimaryDisplay().workAreaSize.height;
 });
 
 app.whenReady().then(() => {
