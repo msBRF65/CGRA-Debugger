@@ -54,6 +54,10 @@ class CGRALog {
 
         return result;
     }
+
+    public getPELog(rowId: number, columnId: number): PELog {
+        return this.peLogArray[rowId][columnId];
+    }
 }
 
 export { CGRALog, CGRAConfig };
