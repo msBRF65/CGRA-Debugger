@@ -23,7 +23,7 @@ class PELog {
         signalNameConfig.inputSignalNameArray.map((_) => this.inputWireArray.push(new WireLog()));
         this.outputWire = new WireLog();
         this.statusMap = {};
-        Object.keys(this.statusMap).forEach((key) => (this.statusMap[key] = new WireLog()));
+        signalNameConfig.statusSignalNameArray.forEach((key) => (this.statusMap[key] = new WireLog()));
 
         this.signalNameConfig = signalNameConfig;
     }
