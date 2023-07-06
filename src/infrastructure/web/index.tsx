@@ -1,10 +1,22 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { HomePage } from './pages/homePage';
+import { CGRAPage } from './pages/cgraPage';
+import { RouterProvider, createHashRouter } from 'react-router-dom';
 
-import { App } from './App';
+const router = createHashRouter([
+    {
+        path: '/',
+        element: <HomePage />,
+    },
+    {
+        path: '/cgra',
+        element: <CGRAPage />,
+    },
+]);
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <App />
+        <RouterProvider router={router} />
     </StrictMode>,
 );
