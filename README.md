@@ -35,3 +35,4 @@ Select vcd file and JSON file for configuration.
   }
 }
 ```
+<img src="images/example_view.png" title="example view">
