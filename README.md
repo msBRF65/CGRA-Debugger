@@ -1,15 +1,15 @@
 # CGRA-Debugger
 
-## 0. environment 
+## environment 
 npm : 8.19.1
 
-## 1. build
+## How to Build
 ```bash
 npm run dev # visualze for debug
 npm run make # build (not package)
 ```
 
-## 2. usage
+## Usage 
 Select vcd file and JSON file for configuration.
 
 ```bash
