@@ -23,7 +23,6 @@ class PEComponent extends React.Component<IPEComponent, PEStateType> {
     }
 
     handleChangeCycle = (cycle: number) => {
-        console.log(this.props.peLog.getValueByCycle(cycle));
         this.setState({
             peValue: this.props.peLog.getValueByCycle(cycle),
         });
