@@ -1,5 +1,5 @@
 import '@/infrastructure/web/css/page.css';
-import { CGRAUsecase } from '@/applications/usecase';
+import { CGRAUsecase, DataInfoUsecase, getVcdSignalInfoOutputType } from '@/applications/usecase';
 import { CGRAConfigLoader } from '@/infrastructure/fileLoader';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -8,10 +8,12 @@ export const HomePage = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const cgraUsecase = new CGRAUsecase();
+    const dataInfoUsecase = new DataInfoUsecase();
     const [vcdFilePath, setVcdFilePath] = useState('');
     const [configFilePath, setConfigFilePath] = useState('');
+    const [vcdSignalName, setVcdSignalName] = useState<getVcdSignalInfoOutputType>([]);
 
-    const handleClick = async () => {
+    const handleReadFileClick = async () => {
         var cgraConfigData = await CGRAConfigLoader.getCGRAConfig(configFilePath);
         let cgraLog = await cgraUsecase.createCGRA({
             path: vcdFilePath,
@@ -21,9 +23,19 @@ export const HomePage = () => {
         navigate('/cgra', { state: { cgraLog: cgraLog } });
     };
 
+    const handleCheckSignalNameClick = async () => {
+        let vcdSignalNameFromVcd = await dataInfoUsecase.getVcdSignalInfo({ path: vcdFilePath });
+        setVcdSignalName(vcdSignalNameFromVcd);
+    };
+
     return (
-        <div className="container">
-            <h1>CGRA Debugger Home</h1>
+        <div
+            className="container"
+            style={{ display: 'flex', gap: '10px', flexDirection: 'column', alignItems: 'center' }}
+        >
+            <div>
+                <h1>CGRA Debugger Home</h1>
+            </div>
             <div>
                 <span style={{ marginLeft: '126px' }}>vcd File: </span>
                 <input
@@ -37,6 +49,17 @@ export const HomePage = () => {
                 />
             </div>
             <div>
+                <button
+                    onClick={async () => {
+                        return handleCheckSignalNameClick();
+                    }}
+                    style={{ width: '200px', height: '30px', fontSize: '15px' }}
+                >
+                    Check Signal Name
+                </button>
+            </div>
+            <div></div>
+            <div>
                 <span style={{ marginRight: '5px' }}>configuration JSON File:</span>
                 <input
                     type="file"
@@ -48,16 +71,26 @@ export const HomePage = () => {
                     }}
                 />
             </div>
-
-            <br></br>
-            <button
-                onClick={async () => {
-                    return handleClick();
-                }}
-                style={{ width: '100px', height: '30px', fontSize: '15px' }}
-            >
-                Read File
-            </button>
+            <div>
+                <button
+                    onClick={async () => {
+                        return handleReadFileClick();
+                    }}
+                    style={{ width: '100px', height: '30px', fontSize: '15px' }}
+                >
+                    Read File
+                </button>
+            </div>
+            <div>
+                信号名一覧
+                <ul>
+                    {vcdSignalName.map((item, index) => (
+                        <li key={index} style={{ textAlign: 'left' }}>
+                            {item.module}.{item.signalName}
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </div>
     );
 };
