@@ -1,4 +1,4 @@
-import { CGRAConfig, CGRALog, PESignalNameConfig, PEValue } from '@/domain/entity';
+import { CGRAConfig, CGRALog, PESignalNameConfig } from '@/domain/entity';
 import { SignalData, VCDLoader } from '@/infrastructure/fileLoader';
 
 type createCGRAInputType = {

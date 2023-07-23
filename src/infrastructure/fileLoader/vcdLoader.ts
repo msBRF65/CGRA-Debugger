@@ -9,6 +9,11 @@ type SignalData = {
     waveDataArray: WaveData[];
 };
 
+type SignalName = {
+    module: string;
+    signalName: string;
+};
+
 class VCDLoader {
     public static async getSignalData(filePath: string): Promise<SignalData[]> {
         let vcdText: string = await window.fs.readFile(filePath);
@@ -32,6 +37,21 @@ class VCDLoader {
         });
 
         return signalDataArray;
+    }
+
+    public static async getSignalName(filePath: string): Promise<SignalName[]> {
+        let vcdText: string = await window.fs.readFile(filePath);
+        let signalDataObjcet: any = await window.vcdParser.parse(vcdText);
+        let signalNameStringToTypeMap: { [key: string]: SignalName } = {};
+
+        signalDataObjcet.signal.map((element: any) => {
+            let key = element.module.replace(/\([^()]*\)/g, '()') + element.signalName.replace(/\([^()]*\)/g, '()');
+            if (!signalNameStringToTypeMap.hasOwnProperty(key)) {
+                signalNameStringToTypeMap[key] = element;
+            }
+        });
+
+        return Object.values(signalNameStringToTypeMap);
     }
 
     private static getNumberFromBitString(input: string): number {
