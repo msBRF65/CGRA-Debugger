@@ -16,7 +16,7 @@ export const HomePage = () => {
     const handleReadFileClick = async () => {
         var cgraConfigData = await CGRAConfigLoader.getCGRAConfig(configFilePath);
         let cgraLog = await cgraUsecase.createCGRA({
-            path: vcdFilePath,
+            vcdPath: vcdFilePath,
             cgraConfig: cgraConfigData.config,
             peConfigArray: cgraConfigData.peConfigArray,
         });

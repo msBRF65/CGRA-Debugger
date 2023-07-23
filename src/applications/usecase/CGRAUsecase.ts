@@ -2,7 +2,7 @@ import { CGRAConfig, CGRALog, PESignalNameConfig } from '@/domain/entity';
 import { SignalData, VCDLoader } from '@/infrastructure/fileLoader';
 
 type createCGRAInputType = {
-    path: string;
+    vcdPath: string;
     cgraConfig: CGRAConfig;
     peConfigArray: PESignalNameConfig[][];
 };
@@ -12,7 +12,7 @@ class CGRAUsecase {
     constructor() {}
 
     public async createCGRA(input: createCGRAInputType): Promise<createCGRAOutputType> {
-        let signalData: SignalData[] = await VCDLoader.getSignalData(input.path);
+        let signalData: SignalData[] = await VCDLoader.getSignalData(input.vcdPath);
         let cgraLog = new CGRALog(input.cgraConfig, input.peConfigArray);
 
         signalData.map((element) => {
