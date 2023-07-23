@@ -12,6 +12,7 @@ class CGRAConfigLoader {
         let cgraConfig: CGRAConfig = {
             rowSize: jsonObject.CGRA.row_size,
             columnSize: jsonObject.CGRA.column_size,
+            contextSize: jsonObject.CGRA.context_size,
             neighborPESize: jsonObject.CGRA.neighbor_PE_size,
         };
         let peConfigArray: PESignalNameConfig[][] = [];
