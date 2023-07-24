@@ -8,18 +8,6 @@ class CGRAConfigId {
         this.columnId = columnId;
         this.contextId = contextId;
     }
-
-    public GetRowId(): number {
-        return this.rowId;
-    }
-
-    public GetColumnId(): number {
-        return this.columnId;
-    }
-
-    public GetContextId(): number {
-        return this.contextId;
-    }
 }
 
 export { CGRAConfigId };
