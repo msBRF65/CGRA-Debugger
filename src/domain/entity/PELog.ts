@@ -81,6 +81,7 @@ class PELog {
             return element.getValueByCycle(cycle);
         });
         result.outputValue = this.outputWire.getValueByCycle(cycle);
+        result.aluConfigId = this.aluConfigIdWire.getValueByCycle(cycle);
         Object.keys(this.statusMap).forEach((key) => {
             result.statusValueMap[key] = this.statusMap[key].getValueByCycle(cycle);
         });
