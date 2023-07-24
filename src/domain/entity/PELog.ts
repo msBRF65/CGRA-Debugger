@@ -32,6 +32,22 @@ class PELog {
         this.signalNameConfig = signalNameConfig;
     }
 
+    private VerifySignalName(signalName: string): boolean {
+        let isSignalInPE: boolean = false;
+        this.signalNameConfig.inputSignalNameArray.map((element) => {
+            if (element === signalName) isSignalInPE = true;
+        });
+        Object.keys(this.statusMap).forEach((key) => {
+            if (key === signalName) isSignalInPE = true;
+        });
+        if (isSignalInPE) return isSignalInPE;
+
+        if (this.signalNameConfig.outputSignalName === signalName) return true;
+        if (this.signalNameConfig.aluConfigSignalName === signalName) return true;
+
+        return false;
+    }
+
     public SetValue(signalName: string, updatedCycle: number, updatedValue: number): void {
         this.signalNameConfig.inputSignalNameArray.map((element, i) => {
             if (element === signalName) this.inputWireArray[i].setValue(updatedCycle, updatedValue);
@@ -48,7 +64,9 @@ class PELog {
         signalName: string,
         updatedValueArray: { updatedCycle: number; updatedValue: number }[],
     ): void {
-        updatedValueArray.map((element) => this.SetValue(signalName, element.updatedCycle, element.updatedValue));
+        if (this.VerifySignalName(signalName)) {
+            updatedValueArray.map((element) => this.SetValue(signalName, element.updatedCycle, element.updatedValue));
+        }
     }
 
     public getValueByCycle(cycle: number): PEValue {
