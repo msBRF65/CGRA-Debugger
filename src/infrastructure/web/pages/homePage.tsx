@@ -11,16 +11,18 @@ export const HomePage = () => {
     const dataInfoUsecase = new DataInfoUsecase();
     const [vcdFilePath, setVcdFilePath] = useState('');
     const [configFilePath, setConfigFilePath] = useState('');
+    const [mappingFilePath, setMappingFilePath] = useState('');
     const [vcdSignalName, setVcdSignalName] = useState<getVcdSignalInfoOutputType>([]);
 
     const handleReadFileClick = async () => {
-        var cgraConfigData = await CGRAConfigLoader.getCGRAConfig(configFilePath);
+        let cgraConfigData = await CGRAConfigLoader.getCGRAConfig(configFilePath);
         let cgraLog = await cgraUsecase.createCGRA({
-            path: vcdFilePath,
+            vcdPath: vcdFilePath,
             cgraConfig: cgraConfigData.config,
             peConfigArray: cgraConfigData.peConfigArray,
         });
-        navigate('/cgra', { state: { cgraLog: cgraLog } });
+        let cgraConfigurationData = await cgraUsecase.getCGRAConfigurationData({ mappingJsonPath: mappingFilePath });
+        navigate('/cgra', { state: { cgraLog: cgraLog, cgraConfigurationData: cgraConfigurationData } });
     };
 
     const handleCheckSignalNameClick = async () => {
@@ -68,6 +70,18 @@ export const HomePage = () => {
                         if (!files || files?.length === 0) return;
                         const file = files[0];
                         setConfigFilePath(file.path);
+                    }}
+                />
+            </div>
+            <div>
+                <span style={{ marginRight: '5px' }}>Mapping Result File:</span>
+                <input
+                    type="file"
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        const files = event.currentTarget.files;
+                        if (!files || files?.length === 0) return;
+                        const file = files[0];
+                        setMappingFilePath(file.path);
                     }}
                 />
             </div>

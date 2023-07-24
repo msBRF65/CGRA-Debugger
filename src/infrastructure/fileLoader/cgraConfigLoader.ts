@@ -12,6 +12,7 @@ class CGRAConfigLoader {
         let cgraConfig: CGRAConfig = {
             rowSize: jsonObject.CGRA.row_size,
             columnSize: jsonObject.CGRA.column_size,
+            contextSize: jsonObject.CGRA.context_size,
             neighborPESize: jsonObject.CGRA.neighbor_PE_size,
         };
         let peConfigArray: PESignalNameConfig[][] = [];
@@ -25,6 +26,7 @@ class CGRAConfigLoader {
                         return this.getSignalNameFromJson(ele, i, j);
                     }),
                     outputSignalName: this.getSignalNameFromJson(jsonObject.PE.output_signal, i, j),
+                    aluConfigSignalName: this.getSignalNameFromJson(jsonObject.PE.alu_context_id, i, j),
                     statusSignalNameArray: jsonObject.PE.status_signal.map((ele: string) => {
                         return this.getSignalNameFromJson(ele, i, j);
                     }),

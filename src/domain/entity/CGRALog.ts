@@ -1,8 +1,9 @@
-import { PELog, PESignalNameConfig, PEValue } from './PELog';
+import { PELog, PESignalNameConfig, PEValue } from '@/domain/entity';
 
 type CGRAConfig = {
     rowSize: number;
     columnSize: number;
+    contextSize: number;
     neighborPESize: number;
 };
 

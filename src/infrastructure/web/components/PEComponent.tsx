@@ -1,5 +1,5 @@
 import '@/infrastructure/web/css/page.css';
-import { PELog, PEValue } from '@/domain/entity';
+import { ConfigurationData, PELog, PEValue } from '@/domain/entity';
 import React from 'react';
 
 interface IPEComponent {
@@ -7,10 +7,12 @@ interface IPEComponent {
     size: number;
     rowId: number;
     columnId: number;
+    configurationData: ConfigurationData[];
 }
 
 interface PEStateType {
     peValue: PEValue;
+    configurationData: ConfigurationData;
 }
 
 class PEComponent extends React.Component<IPEComponent, PEStateType> {
@@ -18,13 +20,16 @@ class PEComponent extends React.Component<IPEComponent, PEStateType> {
         super(props);
         this.state = {
             peValue: this.props.peLog.getValueByCycle(0),
+            configurationData: this.props.configurationData[0],
         };
         this.handleChangeCycle = this.handleChangeCycle.bind(this);
     }
 
     handleChangeCycle = (cycle: number) => {
+        let newPEValue = this.props.peLog.getValueByCycle(cycle);
         this.setState({
-            peValue: this.props.peLog.getValueByCycle(cycle),
+            peValue: newPEValue,
+            configurationData: this.props.configurationData[newPEValue.aluConfigId],
         });
     };
 
@@ -127,10 +132,13 @@ class PEComponent extends React.Component<IPEComponent, PEStateType> {
                 </div>
                 {/* square */}
                 <div style={{ ...squareStyle }}>
-                    PE({this.props.rowId}, {this.props.columnId})
+                    PE({this.props.rowId}, {this.props.columnId}):{' '}
+                    <span style={{ fontWeight: 'bold' }}>
+                        {this.state.configurationData.operation.GetOperationString()}
+                    </span>
                     {Object.keys(this.state.peValue.statusValueMap).map((key) => {
                         return (
-                            <div style={{ whiteSpace: 'pre-wrap', fontSize: "12px" }}>
+                            <div style={{ whiteSpace: 'pre-wrap', fontSize: '12px' }}>
                                 {key}: {this.state.peValue.statusValueMap[key]}
                             </div>
                         );
