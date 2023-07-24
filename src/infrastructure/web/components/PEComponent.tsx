@@ -35,14 +35,13 @@ class PEComponent extends React.Component<IPEComponent, PEStateType> {
 
     render() {
         const triangleStyle = {
-            borderTop: '10px solid #000000',
+            borderTop: '10px solid',
             borderLeft: '5px solid transparent',
             borderRight: '5px solid transparent',
             position: 'absolute',
         } as React.CSSProperties;
 
         const lineStyle = {
-            backgroundColor: '#000000',
             position: 'absolute',
         } as React.CSSProperties;
 
@@ -65,45 +64,157 @@ class PEComponent extends React.Component<IPEComponent, PEStateType> {
             backgroundColor: '#ffffff',
         } as React.CSSProperties;
 
+        const GetLineColor = (isRed: boolean): string => {
+            if (isRed) return 'red';
+            else return 'black';
+        };
+
         return (
             <div style={{ ...PEStyle }}>
                 {/* top */}
-                <div style={{ ...lineStyle, top: '0%', left: '45%', width: '2px', height: '20%' }}></div>
-                <div style={{ ...triangleStyle, top: 'calc(20% - 10px)', left: 'calc(45% - 4px)' }}></div>
-                <div style={{ ...lineStyle, top: '0%', left: '55%', width: '2px', height: '20%' }}></div>
+                <div
+                    style={{
+                        ...lineStyle,
+                        top: '0%',
+                        left: '45%',
+                        width: '2px',
+                        height: '20%',
+                        backgroundColor: GetLineColor(
+                            this.state.configurationData.UseDataFromPE(this.props.rowId - 1, this.props.columnId),
+                        ),
+                    }}
+                ></div>
+                <div
+                    style={{
+                        ...triangleStyle,
+                        top: 'calc(20% - 10px)',
+                        left: 'calc(45% - 4px)',
+                        borderTopColor: GetLineColor(
+                            this.state.configurationData.UseDataFromPE(this.props.rowId - 1, this.props.columnId),
+                        ),
+                    }}
+                ></div>
+                <div
+                    style={{
+                        ...lineStyle,
+                        top: '0%',
+                        left: '55%',
+                        width: '2px',
+                        height: '20%',
+                        backgroundColor: GetLineColor(
+                            this.state.configurationData.UseDataToPE(this.props.rowId - 1, this.props.columnId),
+                        ),
+                    }}
+                ></div>
                 {/* bottom */}
-                <div style={{ ...lineStyle, bottom: '0%', left: '45%', width: '2px', height: '20%' }}></div>
-                <div style={{ ...lineStyle, bottom: '0%', left: '55%', width: '2px', height: '20%' }}></div>
+                <div
+                    style={{
+                        ...lineStyle,
+                        bottom: '0%',
+                        left: '45%',
+                        width: '2px',
+                        height: '20%',
+                        backgroundColor: GetLineColor(
+                            this.state.configurationData.UseDataToPE(this.props.rowId + 1, this.props.columnId),
+                        ),
+                    }}
+                ></div>
+                <div
+                    style={{
+                        ...lineStyle,
+                        bottom: '0%',
+                        left: '55%',
+                        width: '2px',
+                        height: '20%',
+                        backgroundColor: GetLineColor(
+                            this.state.configurationData.UseDataFromPE(this.props.rowId + 1, this.props.columnId),
+                        ),
+                    }}
+                ></div>
                 <div
                     style={{
                         ...triangleStyle,
                         top: 'calc(80% + 2px)',
                         left: 'calc(55% - 4px)',
                         transform: 'rotate(-180deg)',
+                        borderTopColor: GetLineColor(
+                            this.state.configurationData.UseDataFromPE(this.props.rowId + 1, this.props.columnId),
+                        ),
                     }}
                 ></div>
                 {/* left */}
-                <div style={{ ...lineStyle, top: '45%', left: '0%', height: '2px', width: '20%' }}></div>
+                <div
+                    style={{
+                        ...lineStyle,
+                        top: '45%',
+                        left: '0%',
+                        height: '2px',
+                        width: '20%',
+                        backgroundColor: GetLineColor(
+                            this.state.configurationData.UseDataFromPE(this.props.rowId, this.props.columnId - 1),
+                        ),
+                    }}
+                ></div>
                 <div
                     style={{
                         ...triangleStyle,
                         top: 'calc(45% - 4px)',
                         left: 'calc(20% - 9px)',
                         transform: 'rotate(-90deg)',
+                        borderTopColor: GetLineColor(
+                            this.state.configurationData.UseDataFromPE(this.props.rowId, this.props.columnId - 1),
+                        ),
                     }}
                 ></div>
-                <div style={{ ...lineStyle, top: '55%', left: '0%', height: '2px', width: '20%' }}></div>
+                <div
+                    style={{
+                        ...lineStyle,
+                        top: '55%',
+                        left: '0%',
+                        height: '2px',
+                        width: '20%',
+                        backgroundColor: GetLineColor(
+                            this.state.configurationData.UseDataToPE(this.props.rowId, this.props.columnId - 1),
+                        ),
+                    }}
+                ></div>
                 {/* right */}
-                <div style={{ ...lineStyle, top: '45%', right: '0%', height: '2px', width: '20%' }}></div>
-                <div style={{ ...lineStyle, top: '55%', right: '0%', height: '2px', width: '20%' }}></div>
+                <div
+                    style={{
+                        ...lineStyle,
+                        top: '45%',
+                        right: '0%',
+                        height: '2px',
+                        width: '20%',
+                        backgroundColor: GetLineColor(
+                            this.state.configurationData.UseDataToPE(this.props.rowId, this.props.columnId + 1),
+                        ),
+                    }}
+                ></div>
+                <div
+                    style={{
+                        ...lineStyle,
+                        top: '55%',
+                        right: '0%',
+                        height: '2px',
+                        width: '20%',
+                        backgroundColor: GetLineColor(
+                            this.state.configurationData.UseDataFromPE(this.props.rowId, this.props.columnId + 1),
+                        ),
+                    }}
+                ></div>
                 <div
                     style={{
                         ...triangleStyle,
                         top: 'calc(55% - 4px)',
                         left: 'calc(80% + 4px)',
                         transform: 'rotate(90deg)',
+                        borderTopColor: GetLineColor(
+                            this.state.configurationData.UseDataFromPE(this.props.rowId, this.props.columnId + 1),
+                        ),
                     }}
                 ></div>
+
                 {/* output */}
                 <div style={{ top: 'calc(20% - 20px)', left: 'calc(55% + 10px)', position: 'absolute' }}>
                     {this.state.peValue.outputValue}
