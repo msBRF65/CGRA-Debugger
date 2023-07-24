@@ -23,7 +23,8 @@ class CGRAConfigurationData {
             constValue?: number;
             fromConfigIdArray: CGRAConfigId[];
             toConfigIdArray: CGRAConfigId[];
-            operation: string;
+            operationType: string;
+            operationName: string;
         };
     }): void {
         this.configurationData[input.configId.rowId][input.configId.columnId][input.configId.contextId] =

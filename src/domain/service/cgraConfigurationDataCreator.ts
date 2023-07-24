@@ -59,7 +59,8 @@ class CGRAConfigurationDataCreator {
                         constValue: Number(config.const_value),
                         fromConfigIdArray: fromConfigIdArray,
                         toConfigIdArray: toConfigIdArray,
-                        operation: config.operation_type,
+                        operationType: config.operation_type,
+                        operationName: config.operation_name,
                     },
                 });
             });
