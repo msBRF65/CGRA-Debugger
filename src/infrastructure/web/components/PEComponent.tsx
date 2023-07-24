@@ -1,5 +1,5 @@
 import '@/infrastructure/web/css/page.css';
-import { PELog, PEValue } from '@/domain/entity';
+import { ConfigurationData, PELog, PEValue } from '@/domain/entity';
 import React from 'react';
 
 interface IPEComponent {
@@ -7,10 +7,12 @@ interface IPEComponent {
     size: number;
     rowId: number;
     columnId: number;
+    configurationData: ConfigurationData[];
 }
 
 interface PEStateType {
     peValue: PEValue;
+    configurationData: ConfigurationData;
 }
 
 class PEComponent extends React.Component<IPEComponent, PEStateType> {
@@ -18,13 +20,16 @@ class PEComponent extends React.Component<IPEComponent, PEStateType> {
         super(props);
         this.state = {
             peValue: this.props.peLog.getValueByCycle(0),
+            configurationData: this.props.configurationData[0],
         };
         this.handleChangeCycle = this.handleChangeCycle.bind(this);
     }
 
     handleChangeCycle = (cycle: number) => {
+        let newPEValue = this.props.peLog.getValueByCycle(cycle);
         this.setState({
-            peValue: this.props.peLog.getValueByCycle(cycle),
+            peValue: newPEValue,
+            configurationData: this.props.configurationData[newPEValue.aluConfigId],
         });
     };
 
