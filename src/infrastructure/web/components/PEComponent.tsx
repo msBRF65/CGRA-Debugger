@@ -132,10 +132,13 @@ class PEComponent extends React.Component<IPEComponent, PEStateType> {
                 </div>
                 {/* square */}
                 <div style={{ ...squareStyle }}>
-                    PE({this.props.rowId}, {this.props.columnId})
+                    PE({this.props.rowId}, {this.props.columnId}):{' '}
+                    <span style={{ fontWeight: 'bold' }}>
+                        {this.state.configurationData.operation.GetOperationString()}
+                    </span>
                     {Object.keys(this.state.peValue.statusValueMap).map((key) => {
                         return (
-                            <div style={{ whiteSpace: 'pre-wrap', fontSize: "12px" }}>
+                            <div style={{ whiteSpace: 'pre-wrap', fontSize: '12px' }}>
                                 {key}: {this.state.peValue.statusValueMap[key]}
                             </div>
                         );
