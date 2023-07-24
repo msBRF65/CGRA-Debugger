@@ -63,18 +63,23 @@ const GetOperationStringFromEnum = (input: OperationTypeEnum): string => {
 };
 
 class Operation {
-    readonly operation: OperationTypeEnum;
+    readonly operationType: OperationTypeEnum;
+    readonly operationName
 
-    constructor(input: string) {
-        this.operation = GetOperationEnumFromString(input);
+    constructor(input: {
+        operationType: string;
+        operationName: string;
+    }) {
+        this.operationType = GetOperationEnumFromString(input.operationType);
+        this.operationName= input.operationName
     }
 
     public GetOperation(): OperationTypeEnum {
-        return this.operation;
+        return this.operationType;
     }
 
     public GetOperationString(): String {
-        return GetOperationStringFromEnum(this.operation);
+        return GetOperationStringFromEnum(this.operationType);
     }
 }
 
