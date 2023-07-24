@@ -33,6 +33,10 @@ class CGRAConfigurationData {
     public GetCGRAConfigurationData(config_id: CGRAConfigId): ConfigurationData {
         return this.configurationData[config_id.rowId][config_id.columnId][config_id.contextId];
     }
+
+    public GetCGRAConfigurationDataInPE(row_id: number, column_id: number): ConfigurationData[] {
+        return this.configurationData[row_id][column_id];
+    }
 }
 
 export { CGRAConfigurationData };
