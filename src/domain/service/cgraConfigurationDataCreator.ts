@@ -11,8 +11,8 @@ type ConfigType = {
     operation_type: string;
     operation_name: string;
     const_value: string;
-    to_config_id: ConfigIdType[];
-    from_config_id: ConfigIdType[];
+    to_config_id: ConfigIdType[] | string;
+    from_config_id: ConfigIdType[] | string;
 };
 type ConfigIdType = { row_id: string; column_id: string; context_id: string };
 
@@ -30,25 +30,29 @@ class CGRAConfigurationDataCreator {
                     Number(config.context_id),
                 );
                 let fromConfigIdArray: CGRAConfigId[] = [];
-                config.from_config_id.map((fromConfigId: ConfigIdType) => {
-                    fromConfigIdArray.push(
-                        new CGRAConfigId(
-                            Number(fromConfigId.row_id),
-                            Number(fromConfigId.column_id),
-                            Number(fromConfigId.context_id),
-                        ),
-                    );
-                });
+                if (typeof config.from_config_id !== 'string') {
+                    config.from_config_id.map((fromConfigId: ConfigIdType) => {
+                        fromConfigIdArray.push(
+                            new CGRAConfigId(
+                                Number(fromConfigId.row_id),
+                                Number(fromConfigId.column_id),
+                                Number(fromConfigId.context_id),
+                            ),
+                        );
+                    });
+                }
                 let toConfigIdArray: CGRAConfigId[] = [];
-                config.to_config_id.map((toConfigId: ConfigIdType) => {
-                    toConfigIdArray.push(
-                        new CGRAConfigId(
-                            Number(toConfigId.row_id),
-                            Number(toConfigId.column_id),
-                            Number(toConfigId.context_id),
-                        ),
-                    );
-                });
+                if (typeof config.to_config_id !== 'string') {
+                    config.to_config_id.map((toConfigId: ConfigIdType) => {
+                        toConfigIdArray.push(
+                            new CGRAConfigId(
+                                Number(toConfigId.row_id),
+                                Number(toConfigId.column_id),
+                                Number(toConfigId.context_id),
+                            ),
+                        );
+                    });
+                }
                 cgraConfiguraionData.SetCGRAConfigurationData({
                     configId: configId,
                     configurationData: {
