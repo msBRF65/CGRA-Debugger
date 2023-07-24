@@ -10,12 +10,16 @@ class ConfigurationData {
         constValue?: number;
         fromConfigIdArray: CGRAConfigId[];
         toConfigIdArray: CGRAConfigId[];
-        operation: string;
+        operationType: string;
+        operationName: string;
     }) {
         this.constValue = input.constValue == undefined ? 0 : input.constValue;
         this.fromConfigIdArray = input.fromConfigIdArray;
         this.toConfigIdArray = input.toConfigIdArray;
-        this.operation = new Operation(input.operation);
+        this.operation = new Operation({
+            operationType: input.operationType,
+            operationName: input.operationName,
+        });
     }
 
     public UseDataFromPE(rowId: number, columnId: number): boolean {
