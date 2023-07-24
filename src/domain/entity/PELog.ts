@@ -3,18 +3,21 @@ import { WireLog } from '@/domain/valueObject';
 type PEValue = {
     inputValueArray: number[];
     outputValue: number;
+    aluConfigId: number;
     statusValueMap: { [statusName: string]: number };
 };
 
 type PESignalNameConfig = {
     inputSignalNameArray: string[];
     outputSignalName: string;
+    aluConfigSignalName: string;
     statusSignalNameArray: string[];
 };
 
 class PELog {
     readonly inputWireArray: WireLog[];
     readonly outputWire: WireLog;
+    readonly aluConfigIdWire: WireLog;
     readonly statusMap: { [statusName: string]: WireLog };
     readonly signalNameConfig: PESignalNameConfig;
 
@@ -22,6 +25,7 @@ class PELog {
         this.inputWireArray = [];
         signalNameConfig.inputSignalNameArray.map((_) => this.inputWireArray.push(new WireLog()));
         this.outputWire = new WireLog();
+        this.aluConfigIdWire = new WireLog();
         this.statusMap = {};
         signalNameConfig.statusSignalNameArray.forEach((key) => (this.statusMap[key] = new WireLog()));
 
@@ -33,6 +37,8 @@ class PELog {
             if (element === signalName) this.inputWireArray[i].setValue(updatedCycle, updatedValue);
         });
         if (this.signalNameConfig.outputSignalName === signalName) this.outputWire.setValue(updatedCycle, updatedValue);
+        if (this.signalNameConfig.aluConfigSignalName === signalName)
+            this.aluConfigIdWire.setValue(updatedCycle, updatedValue);
         Object.keys(this.statusMap).forEach((key) => {
             if (key === signalName) this.statusMap[key].setValue(updatedCycle, updatedValue);
         });
@@ -49,6 +55,7 @@ class PELog {
         let result: PEValue = {
             inputValueArray: [],
             outputValue: 0,
+            aluConfigId: 0,
             statusValueMap: {},
         };
 
