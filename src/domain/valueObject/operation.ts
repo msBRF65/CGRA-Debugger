@@ -74,10 +74,6 @@ class Operation {
         this.operationName= input.operationName
     }
 
-    public GetOperation(): OperationTypeEnum {
-        return this.operationType;
-    }
-
     public GetOperationString(): String {
         return GetOperationStringFromEnum(this.operationType);
     }
