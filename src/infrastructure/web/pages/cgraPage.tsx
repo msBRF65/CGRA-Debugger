@@ -2,11 +2,12 @@ import '@/infrastructure/web/css/page.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CGRAComponent } from '../components/CGRAComponent';
 import React, { useLayoutEffect, useRef, useState } from 'react';
-import { CGRAConfigurationData, CGRALog } from '@/domain/entity';
+import { CGRAConfigurationData, CGRALog, CGRAWarningConfig } from '@/domain/entity';
 
 interface CGRAPageState {
     cgraLog: CGRALog;
     cgraConfigurationData: CGRAConfigurationData;
+    cgraWarningConfig: CGRAWarningConfig;
 }
 
 export const CGRAPage = () => {
@@ -48,6 +49,7 @@ export const CGRAPage = () => {
                     height={windowHeight}
                     cgraLog={state.cgraLog}
                     cgraConfigurationData={state.cgraConfigurationData}
+                    cgraWarningConfig={state.cgraWarningConfig}
                 />
             </div>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
