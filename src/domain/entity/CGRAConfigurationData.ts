@@ -27,12 +27,15 @@ class CGRAConfigurationData {
             operationName: string;
         };
     }): void {
-        this.configurationData[input.configId.rowId][input.configId.columnId][input.configId.contextId] =
-            new ConfigurationData(input.configurationData);
+        this.configurationData[input.configId.cgraPositionId.rowId][input.configId.cgraPositionId.columnId][
+            input.configId.contextId
+        ] = new ConfigurationData(input.configurationData);
     }
 
     public GetCGRAConfigurationData(config_id: CGRAConfigId): ConfigurationData {
-        return this.configurationData[config_id.rowId][config_id.columnId][config_id.contextId];
+        return this.configurationData[config_id.cgraPositionId.rowId][config_id.cgraPositionId.columnId][
+            config_id.contextId
+        ];
     }
 
     public GetCGRAConfigurationDataInPE(row_id: number, column_id: number): ConfigurationData[] {
