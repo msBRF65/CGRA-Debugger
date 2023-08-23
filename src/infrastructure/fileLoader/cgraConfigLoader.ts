@@ -1,10 +1,11 @@
-import { CGRAConfig, PESignalNameConfig } from '@/domain/entity';
+import { CGRAConfig, CGRAWarningConfig, PESignalNameConfig } from '@/domain/entity';
 import { CGRAPositionId } from '@/domain/valueObject';
 
 type CGRAConfigData = {
     config: CGRAConfig;
     peConfigArray: PESignalNameConfig[][];
     inputRelativePEPositionIdArray: CGRAPositionId[];
+    cgraWarningConfig: CGRAWarningConfig;
 };
 
 class CGRAConfigLoader {
@@ -47,10 +48,16 @@ class CGRAConfigLoader {
             throw new Error('invalid input relative PE position id array or neighbor PE size');
         }
 
+        let cgraWarningConfig: CGRAWarningConfig = {
+            input_to_exec_delay: jsonObject.op_result_warning.input_to_exec_delay,
+            input_to_output_delay: jsonObject.op_result_warning.input_to_output_delay,
+        };
+
         return {
             config: cgraConfig,
             peConfigArray: peConfigArray,
             inputRelativePEPositionIdArray: inputRelativePEPositionIdArray,
+            cgraWarningConfig: cgraWarningConfig,
         };
     }
 
