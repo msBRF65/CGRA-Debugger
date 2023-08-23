@@ -20,6 +20,7 @@ export const HomePage = () => {
             vcdPath: vcdFilePath,
             cgraConfig: cgraConfigData.config,
             peConfigArray: cgraConfigData.peConfigArray,
+            inputRelativePEPositionIdArray: cgraConfigData.inputRelativePEPositionIdArray,
         });
         let cgraConfigurationData = await cgraUsecase.getCGRAConfigurationData({ mappingJsonPath: mappingFilePath });
         navigate('/cgra', { state: { cgraLog: cgraLog, cgraConfigurationData: cgraConfigurationData } });
