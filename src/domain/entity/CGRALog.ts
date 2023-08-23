@@ -24,7 +24,8 @@ class CGRALog {
         for (let i = 0; i < cgraConfig.rowSize; i++) {
             let peLogRow: PELog[] = [];
             for (let j = 0; j < cgraConfig.columnSize; j++) {
-                peLogRow.push(new PELog(peSignalNameConfigArray[i][j]));
+                let tmpPositionId: CGRAPositionId = new CGRAPositionId(i, j);
+                peLogRow.push(new PELog(tmpPositionId, peSignalNameConfigArray[i][j]));
             }
             this.peLogArray.push(peLogRow);
         }
