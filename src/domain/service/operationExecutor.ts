@@ -11,8 +11,6 @@ class OperationExecutor {
                 return value1 * value2;
             case OperationTypeEnum.DIV:
                 return value1 / value2;
-            case OperationTypeEnum.CONST:
-                return value1;
             case OperationTypeEnum.OUTPUT:
                 return value1;
             case OperationTypeEnum.ROUTE:
