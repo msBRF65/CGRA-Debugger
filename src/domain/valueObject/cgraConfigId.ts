@@ -1,11 +1,11 @@
+import { CGRAPositionId } from '@/domain/valueObject';
+
 class CGRAConfigId {
-    readonly rowId: number;
-    readonly columnId: number;
+    readonly cgraPositionId: CGRAPositionId;
     readonly contextId: number;
 
     constructor(rowId: number, columnId: number, contextId: number) {
-        this.rowId = rowId;
-        this.columnId = columnId;
+        this.cgraPositionId = new CGRAPositionId(rowId, columnId);
         this.contextId = contextId;
     }
 }

@@ -1,12 +1,13 @@
 import React from 'react';
 import { PEComponent } from './PEComponent';
-import { CGRAConfigurationData, CGRALog } from '@/domain/entity';
+import { CGRAConfigurationData, CGRALog, CGRAWarningConfig } from '@/domain/entity';
 
 interface ICGRAComponent {
     width: number;
     height: number;
     cgraLog: CGRALog;
     cgraConfigurationData: CGRAConfigurationData;
+    cgraWarningConfig: CGRAWarningConfig;
 }
 
 class CGRAComponent extends React.Component<ICGRAComponent, {}> {
@@ -39,6 +40,8 @@ class CGRAComponent extends React.Component<ICGRAComponent, {}> {
                                 columnId={j}
                                 peLog={this.props.cgraLog.getPELog(i, j)}
                                 configurationData={this.props.cgraConfigurationData.GetCGRAConfigurationDataInPE(i, j)}
+                                cgraWarningConfig={this.props.cgraWarningConfig}
+                                inputRelativePEPositionIdArray={this.props.cgraLog.inputRelativePEPositionIdArray}
                             />
                         ))}
                     </div>

@@ -1,6 +1,8 @@
 import '@/infrastructure/web/css/page.css';
-import { ConfigurationData, PELog, PEValue } from '@/domain/entity';
+import { CGRAWarningConfig, ConfigurationData, PELog, PEValue } from '@/domain/entity';
 import React from 'react';
+import { LogChecker } from '@/domain/service/logChecker';
+import { CGRAPositionId } from '@/domain/valueObject';
 
 interface IPEComponent {
     peLog: PELog;
@@ -8,11 +10,15 @@ interface IPEComponent {
     rowId: number;
     columnId: number;
     configurationData: ConfigurationData[];
+    cgraWarningConfig: CGRAWarningConfig;
+    inputRelativePEPositionIdArray: CGRAPositionId[];
 }
 
 interface PEStateType {
     peValue: PEValue;
     configurationData: ConfigurationData;
+    cgraWarningConfig: CGRAWarningConfig;
+    haveOpeartionResultWarning: boolean;
 }
 
 class PEComponent extends React.Component<IPEComponent, PEStateType> {
@@ -21,6 +27,8 @@ class PEComponent extends React.Component<IPEComponent, PEStateType> {
         this.state = {
             peValue: this.props.peLog.getValueByCycle(0),
             configurationData: this.props.configurationData[0],
+            cgraWarningConfig: this.props.cgraWarningConfig,
+            haveOpeartionResultWarning: false,
         };
         this.handleChangeCycle = this.handleChangeCycle.bind(this);
     }
@@ -30,6 +38,16 @@ class PEComponent extends React.Component<IPEComponent, PEStateType> {
         this.setState({
             peValue: newPEValue,
             configurationData: this.props.configurationData[newPEValue.aluConfigId],
+            haveOpeartionResultWarning: !LogChecker.VerifyOperationResult(
+                this.props.peLog,
+                this.props.configurationData,
+                this.props.inputRelativePEPositionIdArray,
+                cycle,
+                cycle - this.state.cgraWarningConfig.input_to_output_delay,
+                cycle -
+                    this.state.cgraWarningConfig.input_to_output_delay +
+                    this.state.cgraWarningConfig.input_to_exec_delay,
+            ),
         });
     };
 
@@ -69,8 +87,17 @@ class PEComponent extends React.Component<IPEComponent, PEStateType> {
             else return 'black';
         };
 
+        const GetOperationColor = (haveOpeartionResultWarning: boolean): string => {
+            if (haveOpeartionResultWarning) return 'red';
+            else return 'black';
+        };
+
         return (
-            <div style={{ ...PEStyle }}>
+            <div
+                style={{
+                    ...PEStyle,
+                }}
+            >
                 {/* top */}
                 <div
                     style={{
@@ -244,7 +271,11 @@ class PEComponent extends React.Component<IPEComponent, PEStateType> {
                 {/* square */}
                 <div style={{ ...squareStyle }}>
                     PE({this.props.rowId}, {this.props.columnId}):{' '}
-                    <span style={{ fontWeight: 'bold' }}>{this.state.configurationData.operation.operationName}</span>
+                    <span
+                        style={{ fontWeight: 'bold', color: GetOperationColor(this.state.haveOpeartionResultWarning)}}
+                    >
+                        {this.state.configurationData.operation.operationName}
+                    </span>
                     {Object.keys(this.state.peValue.statusValueMap).map((key) => {
                         return (
                             <div style={{ whiteSpace: 'pre-wrap', fontSize: '12px' }}>

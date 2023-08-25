@@ -1,10 +1,12 @@
 import { CGRAConfig, CGRAConfigurationData, CGRALog, PESignalNameConfig } from '@/domain/entity';
 import { CGRAConfigurationDataCreator, PEConfigType } from '@/domain/service/cgraConfigurationDataCreator';
+import { CGRAPositionId } from '@/domain/valueObject';
 import { SignalData, VCDLoader } from '@/infrastructure/fileLoader';
 
 type createCGRAInputType = {
     vcdPath: string;
     cgraConfig: CGRAConfig;
+    inputRelativePEPositionIdArray: CGRAPositionId[];
     peConfigArray: PESignalNameConfig[][];
 };
 type createCGRAOutputType = CGRALog;
@@ -20,7 +22,7 @@ class CGRAUsecase {
 
     public async createCGRA(input: createCGRAInputType): Promise<createCGRAOutputType> {
         let signalData: SignalData[] = await VCDLoader.getSignalData(input.vcdPath);
-        let cgraLog = new CGRALog(input.cgraConfig, input.peConfigArray);
+        let cgraLog = new CGRALog(input.cgraConfig, input.inputRelativePEPositionIdArray, input.peConfigArray);
 
         signalData.map((element) => {
             cgraLog.SetValueArray(element.module + '.' + element.signalName, element.waveDataArray);

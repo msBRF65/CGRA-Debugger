@@ -1,4 +1,5 @@
 import { PELog, PESignalNameConfig, PEValue } from '@/domain/entity';
+import { CGRAPositionId } from '../valueObject';
 
 type CGRAConfig = {
     rowSize: number;
@@ -9,15 +10,22 @@ type CGRAConfig = {
 
 class CGRALog {
     readonly cgraConfig: CGRAConfig;
+    readonly inputRelativePEPositionIdArray: CGRAPositionId[];
     readonly peLogArray: PELog[][];
 
-    constructor(cgraConfig: CGRAConfig, peSignalNameConfigArray: PESignalNameConfig[][]) {
+    constructor(
+        cgraConfig: CGRAConfig,
+        inputRelativePEPositionIdArray: CGRAPositionId[],
+        peSignalNameConfigArray: PESignalNameConfig[][],
+    ) {
         this.cgraConfig = cgraConfig;
+        this.inputRelativePEPositionIdArray = inputRelativePEPositionIdArray;
         this.peLogArray = [];
         for (let i = 0; i < cgraConfig.rowSize; i++) {
             let peLogRow: PELog[] = [];
             for (let j = 0; j < cgraConfig.columnSize; j++) {
-                peLogRow.push(new PELog(peSignalNameConfigArray[i][j]));
+                let tmpPositionId: CGRAPositionId = new CGRAPositionId(i, j);
+                peLogRow.push(new PELog(tmpPositionId, peSignalNameConfigArray[i][j]));
             }
             this.peLogArray.push(peLogRow);
         }

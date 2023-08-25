@@ -25,7 +25,7 @@ class ConfigurationData {
     public UseDataFromPE(rowId: number, columnId: number): boolean {
         let useDataFromPE: boolean = false;
         this.fromConfigIdArray.map((ele) => {
-            if (ele.rowId == rowId && ele.columnId == columnId) useDataFromPE = true;
+            if (ele.cgraPositionId.rowId == rowId && ele.cgraPositionId.columnId == columnId) useDataFromPE = true;
         });
         return useDataFromPE;
     }
@@ -33,7 +33,7 @@ class ConfigurationData {
     public UseDataToPE(rowId: number, columnId: number): boolean {
         let useDataToPE: boolean = false;
         this.toConfigIdArray.map((ele) => {
-            if (ele.rowId == rowId && ele.columnId == columnId) useDataToPE = true;
+            if (ele.cgraPositionId.rowId == rowId && ele.cgraPositionId.columnId == columnId) useDataToPE = true;
         });
         return useDataToPE;
     }

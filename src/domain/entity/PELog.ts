@@ -1,4 +1,4 @@
-import { WireLog } from '@/domain/valueObject';
+import { CGRAPositionId, WireLog } from '@/domain/valueObject';
 
 type PEValue = {
     inputValueArray: number[];
@@ -15,13 +15,15 @@ type PESignalNameConfig = {
 };
 
 class PELog {
+    readonly positionId: CGRAPositionId;
     readonly inputWireArray: WireLog[];
     readonly outputWire: WireLog;
     readonly aluConfigIdWire: WireLog;
     readonly statusMap: { [statusName: string]: WireLog };
     readonly signalNameConfig: PESignalNameConfig;
 
-    constructor(signalNameConfig: PESignalNameConfig) {
+    constructor(positionId: CGRAPositionId, signalNameConfig: PESignalNameConfig) {
+        this.positionId = positionId;
         this.inputWireArray = [];
         signalNameConfig.inputSignalNameArray.map((_) => this.inputWireArray.push(new WireLog()));
         this.outputWire = new WireLog();
