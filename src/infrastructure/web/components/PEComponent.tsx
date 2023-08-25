@@ -18,7 +18,7 @@ interface PEStateType {
     peValue: PEValue;
     configurationData: ConfigurationData;
     cgraWarningConfig: CGRAWarningConfig;
-    haveWarning: boolean;
+    haveOpeartionResultWarning: boolean;
 }
 
 class PEComponent extends React.Component<IPEComponent, PEStateType> {
@@ -28,7 +28,7 @@ class PEComponent extends React.Component<IPEComponent, PEStateType> {
             peValue: this.props.peLog.getValueByCycle(0),
             configurationData: this.props.configurationData[0],
             cgraWarningConfig: this.props.cgraWarningConfig,
-            haveWarning: false,
+            haveOpeartionResultWarning: false,
         };
         this.handleChangeCycle = this.handleChangeCycle.bind(this);
     }
@@ -38,7 +38,7 @@ class PEComponent extends React.Component<IPEComponent, PEStateType> {
         this.setState({
             peValue: newPEValue,
             configurationData: this.props.configurationData[newPEValue.aluConfigId],
-            haveWarning: LogChecker.VerifyOperationResult(
+            haveOpeartionResultWarning: !LogChecker.VerifyOperationResult(
                 this.props.peLog,
                 this.props.configurationData,
                 this.props.inputRelativePEPositionIdArray,
@@ -79,6 +79,7 @@ class PEComponent extends React.Component<IPEComponent, PEStateType> {
             position: 'relative',
             width: this.props.size,
             height: this.props.size,
+            backgroundColor: '#ffffff',
         } as React.CSSProperties;
 
         const GetLineColor = (isRed: boolean): string => {
@@ -86,9 +87,9 @@ class PEComponent extends React.Component<IPEComponent, PEStateType> {
             else return 'black';
         };
 
-        const GetPEStyle = (haveWarning: boolean): string => {
-            if (haveWarning) return 'white';
-            else return 'red';
+        const GetOperationColor = (haveOpeartionResultWarning: boolean): string => {
+            if (haveOpeartionResultWarning) return 'red';
+            else return 'black';
         };
 
         return (
@@ -268,9 +269,13 @@ class PEComponent extends React.Component<IPEComponent, PEStateType> {
                     {this.state.peValue.inputValueArray[3]}
                 </div>
                 {/* square */}
-                <div style={{ ...squareStyle, backgroundColor: GetPEStyle(this.state.haveWarning) }}>
+                <div style={{ ...squareStyle }}>
                     PE({this.props.rowId}, {this.props.columnId}):{' '}
-                    <span style={{ fontWeight: 'bold' }}>{this.state.configurationData.operation.operationName}</span>
+                    <span
+                        style={{ fontWeight: 'bold', color: GetOperationColor(this.state.haveOpeartionResultWarning)}}
+                    >
+                        {this.state.configurationData.operation.operationName}
+                    </span>
                     {Object.keys(this.state.peValue.statusValueMap).map((key) => {
                         return (
                             <div style={{ whiteSpace: 'pre-wrap', fontSize: '12px' }}>
