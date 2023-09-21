@@ -97,16 +97,15 @@ export const HomePage = () => {
                 <h1>CGRA Debugger Home</h1>
             </div>
             <div>
-                <span style={{ marginLeft: '126px' }}>vcd File: </span>
-                <input
-                    type="file"
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                        const files = event.currentTarget.files;
-                        if (!files || files?.length === 0) return;
-                        const file = files[0];
-                        setVcdFilePath(file.path);
+                <FileUploadButton
+                    ref={vcdFileUploadButtonRef}
+                    discription="vcd File:"
+                    buttonName="open"
+                    initFilePath={vcdFilePath}
+                    callbackFunc={(filePath: string) => {
+                        setVcdFilePath(filePath);
                     }}
-                />
+                ></FileUploadButton>
             </div>
             <div>
                 <button
@@ -120,28 +119,26 @@ export const HomePage = () => {
             </div>
             <div></div>
             <div>
-                <span style={{ marginRight: '5px' }}>configuration JSON File:</span>
-                <input
-                    type="file"
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                        const files = event.currentTarget.files;
-                        if (!files || files?.length === 0) return;
-                        const file = files[0];
-                        setConfigFilePath(file.path);
+                <FileUploadButton
+                    ref={configFileUploadButtonRef}
+                    discription="Configuration JSON File: "
+                    buttonName="open"
+                    initFilePath={configFilePath}
+                    callbackFunc={(filePath: string) => {
+                        setConfigFilePath(filePath);
                     }}
-                />
+                ></FileUploadButton>
             </div>
             <div>
-                <span style={{ marginRight: '5px' }}>Mapping Result File:</span>
-                <input
-                    type="file"
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                        const files = event.currentTarget.files;
-                        if (!files || files?.length === 0) return;
-                        const file = files[0];
-                        setMappingFilePath(file.path);
+                <FileUploadButton
+                    ref={mappingFileUploadButtonRef}
+                    discription="Mapping Result File: "
+                    buttonName="open"
+                    initFilePath={mappingFilePath}
+                    callbackFunc={(filePath: string) => {
+                        setMappingFilePath(filePath);
                     }}
-                />
+                ></FileUploadButton>
             </div>
             <div>
                 <button
