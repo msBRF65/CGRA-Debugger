@@ -8,6 +8,15 @@ ipcMain.handle('readFile', (event, path: string): string => {
     let text: string = fs.readFileSync(path, 'utf-8');
     return text;
 });
+
+ipcMain.handle('writeJsonFile', (event, path: string, contents: JSON): void => {
+    return fs.writeFileSync(path, JSON.stringify(contents));
+});
+
+ipcMain.handle('existFile', (event, path: string): boolean => {
+    return fs.existsSync(path);
+});
+
 ipcMain.handle('parse', (event, text: string): Promise<any> => {
     return VCDParser.parse(text);
 });

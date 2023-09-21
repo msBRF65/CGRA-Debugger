@@ -1,5 +1,7 @@
 export interface IFsAPI {
     readFile: (path: string) => string;
+    writeJsonFile: (path: string, contents: JSON) => void;
+    existFile: (path: string) => boolean;
 }
 
 export interface IVcdParserAPI {
