@@ -51,7 +51,7 @@ export const HomePage = () => {
     };
     useEffect(() => {
         setInitialDataPath();
-    }, [setInitialDataPath]);
+    }, []);
 
     const handleReadFileClick = async () => {
         let cgraConfigData = await CGRAConfigLoader.getCGRAConfig(configFilePath);

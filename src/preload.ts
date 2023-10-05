@@ -6,7 +6,7 @@ contextBridge.exposeInMainWorld('fs', {
     writeJsonFile: (path: string, contents: JSON) => ipcRenderer.invoke('writeJsonFile', path, contents),
 });
 contextBridge.exposeInMainWorld('vcdParser', {
-    parse: (path: string) => ipcRenderer.invoke('parse', path),
+    parse: (text: string) => ipcRenderer.invoke('parse', text),
 });
 
 contextBridge.exposeInMainWorld('electron', {

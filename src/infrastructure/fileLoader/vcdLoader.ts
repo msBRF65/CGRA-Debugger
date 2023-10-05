@@ -1,3 +1,5 @@
+import { VcdData, parse } from 'rust_vcd_wasm';
+
 type WaveData = {
     updatedCycle: number;
     updatedValue: number;
@@ -16,25 +18,35 @@ type SignalName = {
 
 class VCDLoader {
     public static async getSignalData(filePath: string): Promise<SignalData[]> {
+        // let vcdText: string = await window.fs.readFile(filePath);
+        console.log('----- parse -----');
+        const startTime = Date.now();
+        console.log(filePath);
         let vcdText: string = await window.fs.readFile(filePath);
-        let signalDataObjcet: any = await window.vcdParser.parse(vcdText);
+        let signalDataObject: VcdData = await window.vcdParser.parse(vcdText);
+
+        const endTime = Date.now();
+        console.log('parse time: ', endTime - startTime);
+
+        console.log(signalDataObject.get_vcd_header);
+
         let signalDataArray: SignalData[] = [];
 
-        signalDataObjcet.signal.map((element: any) => {
-            let tmpSignalData: SignalData = {
-                module: element.module,
-                signalName: element.signalName,
-                waveDataArray: [],
-            };
-            element.wave.map((waveElement: string[]) => {
-                let tmpWaveData: WaveData = {
-                    updatedCycle: Number(waveElement[0]),
-                    updatedValue: this.getNumberFromBitString(waveElement[1]),
-                };
-                tmpSignalData.waveDataArray.push(tmpWaveData);
-            });
-            signalDataArray.push(tmpSignalData);
-        });
+        // signalDataObject.signal.map((element: any) => {
+        //     let tmpSignalData: SignalData = {
+        //         module: element.module,
+        //         signalName: element.signalName,
+        //         waveDataArray: [],
+        //     };
+        //     element.wave.map((waveElement: string[]) => {
+        //         let tmpWaveData: WaveData = {
+        //             updatedCycle: Number(waveElement[0]),
+        //             updatedValue: this.getNumberFromBitString(waveElement[1]),
+        //         };
+        //         tmpSignalData.waveDataArray.push(tmpWaveData);
+        //     });
+        //     signalDataArray.push(tmpSignalData);
+        // });
 
         return signalDataArray;
     }

@@ -21,27 +21,31 @@ class FileUploadButton extends React.Component<IFileUploadButton, FileUploadButt
         };
     }
 
+    OnButtonClick = () => {
+        console.log('OnButtonClick');
+        if (this.inputRef.current !== null) {
+            this.inputRef.current.click();
+        }
+    };
+
+    OnFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log('OnFileInputChange');
+        const files = event.currentTarget.files;
+        if (!files || files?.length === 0) return;
+        const file = files[0];
+        console.log(file.path);
+        this.setState({ filePath: file.path });
+        this.props.callbackFunc(file.path);
+        console.log(this.state.filePath);
+    };
+
     render() {
-        const OnButtonClick = () => {
-            if (this.inputRef.current !== null) {
-                this.inputRef.current.click();
-            }
-        };
-
-        const OnFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-            const files = event.currentTarget.files;
-            if (!files || files?.length === 0) return;
-            const file = files[0];
-            this.setState({ filePath: file.path });
-            this.props.callbackFunc(file.path);
-        };
-
         return (
             <div style={{ display: 'flex' }}>
                 {this.props.discription}
                 <button
                     onClick={() => {
-                        return OnButtonClick();
+                        return this.OnButtonClick();
                     }}
                 >
                     {this.props.buttonName}
@@ -53,7 +57,7 @@ class FileUploadButton extends React.Component<IFileUploadButton, FileUploadButt
                     ref={this.inputRef}
                     type="file"
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                        return OnFileInputChange(event);
+                        return this.OnFileInputChange(event);
                     }}
                 ></input>
             </div>

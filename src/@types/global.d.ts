@@ -1,3 +1,5 @@
+import { VcdData } from 'rust_vcd_wasm';
+
 export interface IFsAPI {
     readFile: (path: string) => string;
     writeJsonFile: (path: string, contents: JSON) => void;
@@ -5,7 +7,7 @@ export interface IFsAPI {
 }
 
 export interface IVcdParserAPI {
-    parse: (text: string) => Promise<any>;
+    parse: (text: string) => VcdData;
 }
 
 export interface IElectronAPI {

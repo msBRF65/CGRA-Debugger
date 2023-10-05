@@ -60,6 +60,9 @@ const common: Configuration = {
             },
         ],
     },
+    experiments: {
+        asyncWebAssembly: true,
+    },
     // 開発時には watch モードでファイルの変化を監視する
     watch: isDev,
     /**
