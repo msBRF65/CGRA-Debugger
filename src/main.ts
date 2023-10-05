@@ -2,14 +2,17 @@ import path from 'node:path';
 import { BrowserWindow, app, ipcMain } from 'electron';
 import * as fs from 'fs';
 import { screen } from 'electron';
-const VCDParser = require('vcd-parser');
 
 ipcMain.handle('readFile', (event, path: string): string => {
     let text: string = fs.readFileSync(path, 'utf-8');
     return text;
 });
-ipcMain.handle('parse', (event, text: string): Promise<any> => {
-    return VCDParser.parse(text);
+ipcMain.handle('writeJsonFile', (event, path: string, contents: JSON): void => {
+    return fs.writeFileSync(path, JSON.stringify(contents));
+});
+
+ipcMain.handle('existFile', (event, path: string): boolean => {
+    return fs.existsSync(path);
 });
 
 ipcMain.handle('getWidth', (event): number => {

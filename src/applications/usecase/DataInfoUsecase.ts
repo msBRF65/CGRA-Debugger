@@ -5,7 +5,6 @@ type getVcdSignalInfoInputType = {
 };
 
 type getVcdSignalInfoOutputType = {
-    module: string;
     signalName: string;
 }[];
 

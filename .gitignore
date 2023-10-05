@@ -17,3 +17,6 @@ dist/
 
 
 out/
+
+# data dir
+src/infrastructure/web/datas/
