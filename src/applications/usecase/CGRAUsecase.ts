@@ -25,7 +25,7 @@ class CGRAUsecase {
         let cgraLog = new CGRALog(input.cgraConfig, input.inputRelativePEPositionIdArray, input.peConfigArray);
 
         signalData.map((element) => {
-            cgraLog.SetValueArray(element.module + '.' + element.signalName, element.waveDataArray);
+            cgraLog.SetValueArray(element.signalName, element.waveDataArray);
         });
 
         return cgraLog;

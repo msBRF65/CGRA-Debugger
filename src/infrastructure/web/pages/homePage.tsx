@@ -155,7 +155,7 @@ export const HomePage = () => {
                 <ul>
                     {vcdSignalName.map((item, index) => (
                         <li key={index} style={{ textAlign: 'left' }}>
-                            {item.module}.{item.signalName}
+                            {item.signalName}
                         </li>
                     ))}
                 </ul>

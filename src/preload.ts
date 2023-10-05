@@ -5,9 +5,6 @@ contextBridge.exposeInMainWorld('fs', {
     existFile: (path: string) => ipcRenderer.invoke('existFile', path),
     writeJsonFile: (path: string, contents: JSON) => ipcRenderer.invoke('writeJsonFile', path, contents),
 });
-contextBridge.exposeInMainWorld('vcdParser', {
-    parse: (text: string) => ipcRenderer.invoke('parse', text),
-});
 
 contextBridge.exposeInMainWorld('electron', {
     getWidth: () => ipcRenderer.invoke('getWidth'),

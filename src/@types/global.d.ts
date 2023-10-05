@@ -6,10 +6,6 @@ export interface IFsAPI {
     existFile: (path: string) => boolean;
 }
 
-export interface IVcdParserAPI {
-    parse: (text: string) => VcdData;
-}
-
 export interface IElectronAPI {
     getWidth: () => number;
     getHeight: () => number;
@@ -18,7 +14,6 @@ export interface IElectronAPI {
 declare global {
     interface Window {
         fs: IFsAPI;
-        vcdParser: IVcdParserAPI;
         electron: IElectronAPI;
     }
 }
