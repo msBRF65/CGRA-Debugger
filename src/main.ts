@@ -1,18 +1,20 @@
 import path from 'node:path';
-import { BrowserWindow, app, ipcMain } from 'electron';
+import { BrowserWindow, app, ipcMain, session } from 'electron';
 import * as fs from 'fs';
 import { screen } from 'electron';
+import { StoreDataType } from './domain/valueObject';
+import ElectronStore from 'electron-store';
+
+type ElectronStoreType = {
+    vcdFilePath: string;
+    configFilePath: string;
+    mappingFilePath: string;
+};
+const store = new ElectronStore<ElectronStoreType>();
 
 ipcMain.handle('readFile', (event, path: string): string => {
     let text: string = fs.readFileSync(path, 'utf-8');
     return text;
-});
-ipcMain.handle('writeJsonFile', (event, path: string, contents: JSON): void => {
-    return fs.writeFileSync(path, JSON.stringify(contents));
-});
-
-ipcMain.handle('existFile', (event, path: string): boolean => {
-    return fs.existsSync(path);
 });
 
 ipcMain.handle('getWidth', (event): number => {
@@ -20,6 +22,19 @@ ipcMain.handle('getWidth', (event): number => {
 });
 ipcMain.handle('getHeight', (event): number => {
     return screen.getPrimaryDisplay().workAreaSize.height;
+});
+
+ipcMain.handle('getData', (event, name: string): StoreDataType => {
+    const value = store.get(name, undefined) as string | undefined;
+    return {
+        name: name,
+        value: value,
+    };
+});
+
+ipcMain.handle('setData', (event, data: StoreDataType): void => {
+    store.set(data.name, data.value);
+    return;
 });
 
 app.whenReady().then(() => {
