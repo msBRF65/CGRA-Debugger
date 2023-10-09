@@ -1,9 +1,7 @@
-import { VcdData } from 'rust_vcd_wasm';
+import { StoreDataType } from '@/domain/valueObject';
 
 export interface IFsAPI {
     readFile: (path: string) => string;
-    writeJsonFile: (path: string, contents: JSON) => void;
-    existFile: (path: string) => boolean;
 }
 
 export interface IElectronAPI {
@@ -11,9 +9,15 @@ export interface IElectronAPI {
     getHeight: () => number;
 }
 
+export interface IStoreAPI {
+    getData: (name: string) => StoreDataType;
+    setData: (data: StoreDataType) => void;
+}
+
 declare global {
     interface Window {
         fs: IFsAPI;
         electron: IElectronAPI;
+        store: IStoreAPI;
     }
 }

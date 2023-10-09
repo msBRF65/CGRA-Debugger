@@ -7,13 +7,6 @@ import { createRef, useEffect, useState } from 'react';
 import { FileUploadButton } from '../components/fileUploadButton';
 import { CGRALog } from '@/domain/entity';
 
-const prevDataPath = 'src/infrastructure/web/datas/prev_path.json';
-type PrevFileData = {
-    vcdFilePath: string;
-    configFilePath: string;
-    mappingFilePath: string;
-};
-
 export const HomePage = () => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -30,25 +23,24 @@ export const HomePage = () => {
     const [vcdSignalName, setVcdSignalName] = useState<getVcdSignalInfoOutputType>([]);
 
     const setInitialDataPath = async () => {
-        let existPrevDataFile: boolean = await window.fs.existFile(prevDataPath);
-        if (existPrevDataFile) {
-            const prevDataString: string = await window.fs.readFile(prevDataPath);
-            const prevDataJson: { [name: string]: string } = JSON.parse(prevDataString);
-            setVcdFilePath(prevDataJson['vcdFilePath']);
-            setConfigFilePath(prevDataJson['configFilePath']);
-            setMappingFilePath(prevDataJson['mappingFilePath']);
-
-            vcdFileUploadButtonRef.current?.setState({
-                filePath: prevDataJson['vcdFilePath'],
-            });
-            configFileUploadButtonRef.current?.setState({
-                filePath: prevDataJson['configFilePath'],
-            });
-            mappingFileUploadButtonRef.current?.setState({
-                filePath: prevDataJson['mappingFilePath'],
-            });
+        const vcdDataPathStoredData = await window.store.getData('vcd_file_path');
+        const configDataPathStoredData = await window.store.getData('config_file_path');
+        const mappingDataPathStoredData = await window.store.getData('mapping_file_path');
+        
+        if (vcdDataPathStoredData.value !== undefined) {
+            setVcdFilePath(vcdDataPathStoredData.value);
+            vcdFileUploadButtonRef.current?.setState({ filePath: vcdDataPathStoredData.value });
+        }
+        if (configDataPathStoredData.value !== undefined) {
+            setConfigFilePath(configDataPathStoredData.value);
+            configFileUploadButtonRef.current?.setState({ filePath: configDataPathStoredData.value });
+        }
+        if (mappingDataPathStoredData.value !== undefined) {
+            setMappingFilePath(mappingDataPathStoredData.value);
+            mappingFileUploadButtonRef.current?.setState({ filePath: mappingDataPathStoredData.value });
         }
     };
+
     useEffect(() => {
         setInitialDataPath();
     }, []);
@@ -63,16 +55,9 @@ export const HomePage = () => {
         });
         let cgraConfigurationData = await cgraUsecase.getCGRAConfigurationData({ mappingJsonPath: mappingFilePath });
 
-        const newPrevData: PrevFileData = {
-            vcdFilePath: vcdFilePath,
-            configFilePath: configFilePath,
-            mappingFilePath: mappingFilePath,
-        };
-
-        const newPrevDataJson: JSON = JSON.parse(JSON.stringify(newPrevData));
-        if (process.env.NODE_ENV === "production") {
-            await window.fs.writeJsonFile(prevDataPath, newPrevDataJson);
-        }
+        await window.store.setData({ name: 'vcd_file_path', value: vcdFilePath });
+        await window.store.setData({ name: 'config_file_path', value: configFilePath });
+        await window.store.setData({ name: 'mapping_file_path', value: mappingFilePath });
 
         navigate('/cgra', {
             state: {
